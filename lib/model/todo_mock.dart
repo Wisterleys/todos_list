@@ -1,10 +1,13 @@
-import 'package:flutter/cupertino.dart';
+import 'dart:convert';
 
-abstract class Todo{
+import 'package:flutter/cupertino.dart';
+import 'package:intl/intl.dart';
+
+class Todo{
   Todo({
     required this.title,
-    required this.data,
+    required this.date,
   });
   Text title;
-  DateTime data;
+  Text date;
 }
