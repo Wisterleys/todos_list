@@ -1,4 +1,4 @@
-import 'dart:html';
+
 
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -62,12 +62,14 @@ class _TodoListPageState extends State<TodoListPage> {
                   ],
                 ),
                 SizedBox(height: 16,),
-                ListView(
+                Flexible(
+                  child: ListView(
                   shrinkWrap: true,
                   children: [
                   for (Todo todo in todos)
                     TodoListItem(todo:todo),
                   ],
+                ), 
                 ),
                 Row(
                   children: [
