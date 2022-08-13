@@ -1,5 +1,6 @@
 
 
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:twoto_do_list/widgets/TodoListItem.dart';
@@ -67,7 +68,7 @@ class _TodoListPageState extends State<TodoListPage> {
                   shrinkWrap: true,
                   children: [
                   for (Todo todo in todos)
-                    TodoListItem(todo:todo),
+                    TodoListItem(todo:todo,itemDelete: itemDelete,),
                   ],
                 ), 
                 ),
@@ -94,5 +95,11 @@ class _TodoListPageState extends State<TodoListPage> {
 
     );
     
+  }
+
+  void itemDelete(Todo todo){
+    setState(() {
+      todos.remove(todo);
+    });
   }
 }
