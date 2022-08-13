@@ -7,9 +7,10 @@ import 'package:flutter_slidable/flutter_slidable.dart';
 import '../model/todo_mock.dart';
 
 class TodoListItem extends StatelessWidget {
-  TodoListItem({Key? key, required this.todo,required this.itemDelete}) : super(key: key);
+  TodoListItem({Key? key, required this.todo,required this.itemDelete,required this.itemDes}) : super(key: key);
   final Todo todo;
   void Function(Todo todo) itemDelete;
+  void Function() itemDes;
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -34,8 +35,26 @@ class TodoListItem extends StatelessWidget {
         IconSlideAction(
           color: Colors.red,
           icon: Icons.delete,
+          caption: "Deletar",
           onTap: (){
             itemDelete(todo);
+            var title = todo.title;
+            ScaffoldMessenger.of(context).clearSnackBars();
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(
+                duration: Duration(seconds: 5),
+                content: Text(
+                  'Atarefa  $title foi removida com sucesso!',
+                style: TextStyle(color: Colors.red),
+                ),
+                action: SnackBarAction(
+                  label: "Desfazer",
+                  onPressed: (){
+                    itemDes();
+                  },
+                  ),
+                )
+              );
           },
         )
       ],

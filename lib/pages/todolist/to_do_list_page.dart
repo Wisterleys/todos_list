@@ -1,9 +1,12 @@
 
 
+import 'dart:ui';
+
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:intl/intl.dart';
-import 'package:twoto_do_list/widgets/TodoListItem.dart';
+import 'package:twoto_do_list/widgets/widgets.dart';
 
 import '../../model/todo_mock.dart';
 
@@ -16,13 +19,12 @@ class TodoListPage extends StatefulWidget{
 
 class _TodoListPageState extends State<TodoListPage> {
   TextEditingController todoController = TextEditingController();
-
   List<Todo> todos =[];
-
+  late Todo del;
+  late int index;
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      home: Scaffold(
+    return Scaffold(
         appBar: AppBar(
           title: Center(
             child: Text("Lista de tarefas"),
@@ -68,7 +70,7 @@ class _TodoListPageState extends State<TodoListPage> {
                   shrinkWrap: true,
                   children: [
                   for (Todo todo in todos)
-                    TodoListItem(todo:todo,itemDelete: itemDelete,),
+                    TodoListItem(todo:todo,itemDelete: itemDelete,itemDes: itemDes,),
                   ],
                 ), 
                 ),
@@ -78,10 +80,7 @@ class _TodoListPageState extends State<TodoListPage> {
                     SizedBox(width: 20,),
                     ElevatedButton(
                       onPressed: (){
-                        todos.clear();
-                        setState(() {
-                          todos;
-                        });
+                        modalClean();                  
                       },
                       child: Text("Limpar tudo"),
                       ), 
@@ -91,15 +90,51 @@ class _TodoListPageState extends State<TodoListPage> {
             ) ,
               )
         
-      ),
-
-    );
+      );
     
   }
 
   void itemDelete(Todo todo){
+    index = todos.indexOf(todo);
+    del = todo;
     setState(() {
       todos.remove(todo);
     });
+    
+  }
+  void itemDes(){
+    
+    setState(() {
+      todos.insert(index, del);
+    });
+    
+  }
+  void modalClean(){
+    showDialog(
+    context: context,
+      builder: (context)=>AlertDialog(
+      title: Text("Deletar tudo?"),
+      content: Text("Tem certeza que deseja deletar todas as tarefas?"),
+      actions: [
+        TextButton(
+          onPressed: (){
+            Navigator.of(context).pop();
+            
+              setState(() {
+                todos.clear();
+              });
+          }, 
+          child: Text("Limpar tudo", style: TextStyle(color: Colors.red))
+        ),
+        TextButton(
+          onPressed: (){
+            Navigator.of(context).pop();
+            
+          }, 
+          child: Text("Cancelar", style: TextStyle(color: Color.fromARGB(255, 42, 6, 206)))
+        ),
+      ],
+      ),
+    );
   }
 }

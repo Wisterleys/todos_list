@@ -2,5 +2,8 @@ import 'package:flutter/material.dart';
 import './pages/pages.dart';
 
 void main() {
-  runApp(TodoListPage());
+  runApp(
+    MaterialApp(
+    home: TodoListPage(),
+  ));
 }
