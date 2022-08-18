@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
+import 'package:intl/intl.dart';
 
 import '../model/todo_mock.dart';
 
@@ -16,20 +17,6 @@ class TodoListItem extends StatelessWidget {
     return Padding(
       padding: EdgeInsets.symmetric(vertical: 5),
       child: Slidable(
-      child: Container(
-        padding: EdgeInsets.all(16),
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(4),
-          color: Colors.grey[200],
-        ),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            todo.title,
-            todo.date,
-          ],
-        ),
-      ), 
       actionPane: const SlidableDrawerActionPane(),
       secondaryActions: [
         IconSlideAction(
@@ -58,6 +45,20 @@ class TodoListItem extends StatelessWidget {
           },
         )
       ],
+      child: Container(
+        padding: EdgeInsets.all(16),
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(4),
+          color: Colors.grey[200],
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            Text(todo.title),
+            Text(DateFormat('dd/mm/yyyy').format(todo.date)),
+          ],
+        ),
+      ),
       ),
     );
   }

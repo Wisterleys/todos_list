@@ -9,6 +9,7 @@ import 'package:intl/intl.dart';
 import 'package:twoto_do_list/widgets/widgets.dart';
 
 import '../../model/todo_mock.dart';
+import '../../repositories/repositories.dart';
 
 class TodoListPage extends StatefulWidget{
   TodoListPage({Key? key}) : super(key: key);
@@ -19,9 +20,23 @@ class TodoListPage extends StatefulWidget{
 
 class _TodoListPageState extends State<TodoListPage> {
   TextEditingController todoController = TextEditingController();
+  final TodoRepository todoRepository = TodoRepository();
+
   List<Todo> todos =[];
   late Todo del;
   late int index;
+@override
+void initState(){
+  super.initState();
+
+  todoRepository.getTodoList().then((value){
+    print("rodou");
+    setState((){
+      todos = value;
+    });
+  });
+}
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -52,10 +67,11 @@ class _TodoListPageState extends State<TodoListPage> {
                   ),
                   onPressed: (){
                       Todo todo = Todo(
-                        title: Text(todoController.text),
-                        date: Text(DateFormat('dd/mm/yyyy').format(DateTime.now())), 
+                        title: todoController.text,
+                        date: DateTime.now(), 
                       );
                       todos.add(todo);
+                      todoRepository.saveTodoList(todos);
                       setState(() {
                         todos;
                         todoController.text = '';
@@ -100,14 +116,14 @@ class _TodoListPageState extends State<TodoListPage> {
     setState(() {
       todos.remove(todo);
     });
-    
+    todoRepository.saveTodoList(todos);
   }
   void itemDes(){
     
     setState(() {
       todos.insert(index, del);
     });
-    
+    todoRepository.saveTodoList(todos);
   }
   void modalClean(){
     showDialog(
@@ -123,6 +139,7 @@ class _TodoListPageState extends State<TodoListPage> {
               setState(() {
                 todos.clear();
               });
+              todoRepository.saveTodoList(todos);
           }, 
           child: Text("Limpar tudo", style: TextStyle(color: Colors.red))
         ),

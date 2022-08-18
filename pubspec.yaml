@@ -35,7 +35,8 @@ dependencies:
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.2
   intl:
-  flutter_slidable: ^0.6.0
+  flutter_slidable: ^0.6.0 #Para criar movimentação de drag
+  shared_preferences: ^2.0.8 #Para persistir dados
   
 dev_dependencies:
   flutter_test:
